@@ -322,6 +322,7 @@ export class DashboardAppController {
     this.updateBreadcrumbs();
     this.dashboardStateManager.registerChangeListener(() => this.updateBreadcrumbs());
 
+    this.initializeTopNavActions();
     $scope.getShouldShowEditHelp = () =>
       !this.dashboardStateManager.getPanels().length &&
       this.dashboardStateManager.getIsEditMode() &&
@@ -426,8 +427,6 @@ export class DashboardAppController {
       kbnUrl.removeParam(DashboardConstants.ADD_VISUALIZATION_TO_DASHBOARD_MODE_PARAM);
       kbnUrl.removeParam(DashboardConstants.NEW_VISUALIZATION_ID_PARAM);
     }
-
-    this.initializeTopNavActions();
   }
 
   private updateViewMode(newMode: ViewMode) {
@@ -493,7 +492,7 @@ export class DashboardAppController {
         objectType: 'dashboard',
         shareContextMenuExtensions,
         sharingData: {
-          title: dash.title,
+          title: this.dashboardStateManager.savedDashboard.title,
         },
         isDirty: this.dashboardStateManager.getIsDirty(),
       });
